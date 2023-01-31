@@ -209,7 +209,8 @@
 
 ;; Main Program
 (header "Init")
-(def cookie (input {:placeholder "Please insert cookie: "}))
+(def user (input {:value "" :placeholder "Enter your bamboohr username"}))
+(def cookie (-> (shell {:extra-env {"BAMBOOHR_DOMAIN" "juxtpro.bamboohr.com"} :out :string} (format "bamboodle %s" user)) :out str/trim))
 (swap! headers assoc :cookie cookie)
 (init-data)
 
