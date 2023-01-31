@@ -7,7 +7,7 @@
 
 ## How to use
 
-* Add an entry to unix password store for <username>/juxtpro.bamboohr.com
+* Add an entry to unix password store for &lt;username&gt;/juxtpro.bamboohr.com
 * Execute `bb time_off.bb`
 * View your timesheet or add days for a project between a range.
 
