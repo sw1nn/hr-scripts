@@ -209,10 +209,17 @@
 
 ;; Main Program
 (header "Init")
-(def user (input {:value "" :placeholder "Enter your bamboohr username"}))
-(def cookie (-> (shell {:extra-env {"BAMBOOHR_DOMAIN" "juxtpro.bamboohr.com"} :out :string} (format "bamboodle %s" user)) :out str/trim))
-(swap! headers assoc :cookie cookie)
-(init-data)
+(let [user (or (System/getenv "BAMBOOHR_USER")
+               (input {:value "" :placeholder "Enter your bamboohr username"}))
+      domain (or (System/getenv "BAMBOOHR_DOMAIN")
+                 (input {:value "" :placeholder "Enter your bamboohr domain"}))]
+  (header (format "Using %s/%s" user domain))
+  (swap! headers assoc :cookie
+         (-> (shell {:out :string}
+                    (format  "bamboodle -d '%s' '%s'" domain user))
+             :out
+             str/trim))
+  (init-data))
 
 (loop []
   (retrieve-time-sheet!)
